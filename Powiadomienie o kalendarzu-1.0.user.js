@@ -84,7 +84,7 @@ function showWarning() {
 
 function run() {
 
-    if (Engine.widgetNoticeManager.getData().includes(2) || 1) {
+    if (Engine.widgetNoticeManager.getData().includes(2)) {
         showWarning();
     }
 
