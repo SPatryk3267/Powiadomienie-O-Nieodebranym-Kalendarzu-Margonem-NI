@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Powiadomienie o kalendarzu
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      2.0
 // @description  Powiadomienie o kalendarzu
 // @author       SPatryk3267
 // @match        https://*.margonem.pl/
@@ -45,16 +45,40 @@ function showWarning() {
     `;
 
     content.innerHTML = `
-        <p>Uwaga, masz nieodebrany kalendarz!!!</p>
+    <p>Uwaga, masz nieodebrany kalendarz!!!</p>
+    <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+        <button id="open_button" style="background-color: #00ff0088; color: white; padding: 5px 10px; border: 1px solid rgba(161, 160, 160, 255);
+        border-radius: 5px; cursor: pointer;">
+            Otworz
+        </button>
         <button id="close_button" style="background-color: #ff0000; color: white; padding: 5px 10px; border: 1px solid rgba(161, 160, 160, 255);
-        border-radius: 5px; cursor: pointer; bottom: 5px; left: 50%; height: 10%; ">
+        border-radius: 5px; cursor: pointer;">
             Zamknij
         </button>
-    `;
+    </div>`;
     message.appendChild(content);
 
     document.getElementById("close_button").addEventListener("click", function () {
         message.style.display = "none";
+    });
+
+    document.getElementById("open_button").addEventListener("click", function () {
+        message.style.display = "none";
+        _g('rewards_calendar&action=show');
+
+        setTimeout(() => {
+            if(Engine.rewardsCalendar){
+                const todayTs = String(Engine.rewardsCalendar.getTodayWithoutMinutes(Engine.getWorldTime()));
+                _g('rewards_calendar&action=open&day_no=' +(parseInt(Engine.rewardsCalendar.rewardDays[todayTs]) + 1));
+            }
+        }, 500);
+
+        setTimeout(() => {
+            if(Engine.rewardsCalendar){
+                Engine.rewardsCalendar.close();
+            }
+        }, 700);
+
     });
 }
 
@@ -68,4 +92,4 @@ function run() {
 
 setTimeout(() => {
     run();
-}, 5000);
+}, 2500);
