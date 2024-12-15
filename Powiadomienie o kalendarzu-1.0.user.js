@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Powiadomienie o kalendarzu
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      1.0
 // @description  Powiadomienie o kalendarzu
 // @author       SPatryk3267
 // @match        https://*.margonem.pl/
@@ -18,7 +18,7 @@ function showWarning() {
        z-index: 9999;
        display: block;
        width: 250px;
-       height: 70px;
+       height: 75px;
        background-color: rgba(0, 0, 0, 0.8);
        border: 1px solid rgba(161, 160, 160, 255);
        border-radius: 5px;
@@ -84,7 +84,7 @@ function showWarning() {
 
 function run() {
 
-    if (Engine.widgetNoticeManager.getData().includes(2)) {
+    if (Engine.widgetNoticeManager.getData().includes(2) || 1) {
         showWarning();
     }
 
